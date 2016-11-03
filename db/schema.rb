@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20161029174604) do
     t.integer  "drop_id"
     t.decimal  "estimated_pickup_time",   precision: 10
     t.decimal  "estimated_delivery_time", precision: 10
+    t.string   "request_id"
     t.string   "name"
     t.decimal  "age",                     precision: 10
     t.datetime "created_at",                             null: false

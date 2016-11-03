@@ -7,6 +7,7 @@ class CreateOrders < ActiveRecord::Migration[5.0]
       t.integer :drop_id
       t.decimal :estimated_pickup_time
       t.decimal :estimated_delivery_time
+      t.string :request_id
       t.string :name
       t.decimal :age
 
