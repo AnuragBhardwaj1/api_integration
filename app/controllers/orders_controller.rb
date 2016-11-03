@@ -6,18 +6,9 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(permitted_resource_params)
     if @order.save
-      render json: {
-        status: @order.status,
-        eta: @order.estimated_pickup_time,
-        etd: @order.estimated_delivery_time,
-        cost: @order.cost
-      }
+      render json: create_response
     else
-      render json: {
-        error: 'Record Not Saved',
-        errors: @order.errors.to_hash,
-      },
-      status: 422
+      render json: create_fails_response, status: 422
 
     end
   end
@@ -25,5 +16,21 @@ class OrdersController < ApplicationController
   private
     def permitted_resource_params
       params.permit(:name, :age, items_attributes: [:name, :type], pickup_attributes: [:house_number, :block, :locality, :city, :state, :pincode], drop_attributes: [:house_number, :block, :locality, :city, :state, :pincode])
+    end
+
+    def create_response
+      {
+        status: @order.status,
+        eta: @order.estimated_pickup_time.to_s + ' minutes',
+        etd: @order.estimated_delivery_time.to_s + ' minutes',
+        cost: @order.cost.to_s + ' Rs.'
+      }
+    end
+
+    def create_fails_response
+      {
+        error: 'Record Not Saved',
+        errors: @order.errors.to_hash,
+      }
     end
 end
